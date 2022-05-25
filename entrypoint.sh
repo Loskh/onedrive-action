@@ -37,6 +37,16 @@ if [ -z "$INPUT_REFRESH_TOKEN" ]; then
   exit 1
 fi
 
-python /upload.py uploads -n $INPUT_FILE_NAME -p $INPUT_FILE_PATH -u $INPUT_UPLOAD_PATH -c $INPUT_CLIENT_ID -r $INPUT_REDIRECT_URI -s $INPUT_CLIENT_SECRET -t $INPUT_REFRESH_TOKEN
-echo "python /upload.py uploads -n $INPUT_FILE_NAME -p $INPUT_FILE_PATH -u $INPUT_UPLOAD_PATH -c $INPUT_CLIENT_ID -r $INPUT_REDIRECT_URI -s $INPUT_CLIENT_SECRET -t $INPUT_REFRESH_TOKEN"
+IFS="&&"
+arrARGS=($INPUT_FILE_NAME)
+
+for each in ${arrARGS[@]}
+do
+  unset IFS
+  each=$(echo ${each} | xargs)
+  if [ -n "$each" ]; then
+  # python /upload.py uploads -n $INPUT_FILE_NAME -p $INPUT_FILE_PATH -u $INPUT_UPLOAD_PATH -c $INPUT_CLIENT_ID -r $INPUT_REDIRECT_URI -s $INPUT_CLIENT_SECRET -t $INPUT_REFRESH_TOKEN
+  echo "Running command: upload ${each}"
+  fi
+done
 echo "Commands ran successfully"
