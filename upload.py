@@ -10,16 +10,14 @@ import argparse
 
 
 def cli():
-    parser = argparse.ArgumentParser(description='CLI描述')
+    parser = argparse.ArgumentParser(description='Upload to onedrive_cn')
     subparsers = parser.add_subparsers(metavar='子命令')
 
-    # 添加子命令，演示有参数
+    # 添加子命令
     uploads = subparsers.add_parser('uploads', help='上传')
     # 参数(简写，全称，类型，是否必填，帮助说明)
     uploads.add_argument('-c', '--cid', type=str, required=True, help='client_id')
-    # 参数(简写，全称，类型，默认值，帮助说明)
     uploads.add_argument('-r', '--uri', type=str, required=True, help='redirect_uri')
-    # 参数(简写，全称，类型，帮助说明)
     uploads.add_argument('-s', '--pwd', type=str, required=True, help='client_secret')
     uploads.add_argument('-t', '--rt', type=str, required=True, help='refresh_token')
     uploads.add_argument('-n', '--name', type=str, required=True, help='file_name')
