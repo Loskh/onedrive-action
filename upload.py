@@ -62,7 +62,7 @@ def handle_result(args):
     file_path = f"{args.path}/{file_name}"
     upload_path = args.uppath
     # 获取上传临时url
-    url_session = f"https://microsoftgraph.chinacloudapi.cn/v1.0/718a9b13-5674-4997-bdf1-9af8691905e7/me/drive/root:{upload_path}/{file_name}:/createUploadSession"
+    url_session = f"https://microsoftgraph.chinacloudapi.cn/v1.0/{client_id}/me/drive/root:{upload_path}{file_name}:/createUploadSession"
     response_session = requests.post(url_session, headers=headers, data=None)
     upload_url = response_session.json()['uploadUrl']
     # 上传文件

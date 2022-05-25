@@ -1,0 +1,31 @@
+name: "OneDrive Upload Action"
+description: "GitHub Action for OneDrive Upload"
+author: "Loskh"
+branding:
+  icon: "cloud"
+  color: "blue"
+inputs:
+  file_name:
+    description: "file_name to be uploaded."
+    required: true
+  file_path:
+    description: "Path in local to be uploaded."
+    required: true
+  upload_path:
+    description: "Path in onedrive to be uploaded."
+    required: true
+  client_id:
+    description: "client_id"
+    required: true
+  redirect_uri:
+    description: "redirect_uri"
+    required: true
+  client_secret:
+    description: "client_secret"
+    required: true
+  refresh_token:
+    description: "refresh_token"
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"
