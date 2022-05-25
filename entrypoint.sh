@@ -3,7 +3,7 @@
 set -e
 
 if [ -z "$INPUT_FILES" ]; then
-  echo '::error::Required file_name parameter'
+  echo '::error::Required files parameter'
   exit 1
 fi
 
