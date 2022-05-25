@@ -2,13 +2,8 @@
 
 set -e
 
-if [ -z "$INPUT_FILE_NAME" ]; then
+if [ -z "$INPUT_FILES" ]; then
   echo '::error::Required file_name parameter'
-  exit 1
-fi
-
-if [ -z "$INPUT_FILE_PATH" ]; then
-  echo '::error::Required file_path parameter'
   exit 1
 fi
 
@@ -45,7 +40,7 @@ do
   unset IFS
   each=$(echo ${each} | xargs)
   if [ -n "$each" ]; then
-  # python /upload.py uploads -n $INPUT_FILE_NAME -p $INPUT_FILE_PATH -u $INPUT_UPLOAD_PATH -c $INPUT_CLIENT_ID -r $INPUT_REDIRECT_URI -s $INPUT_CLIENT_SECRET -t $INPUT_REFRESH_TOKEN
+  python /upload.py file ${each} -u $INPUT_UPLOAD_PATH -c $INPUT_CLIENT_ID -r $INPUT_REDIRECT_URI -s $INPUT_CLIENT_SECRET -t $INPUT_REFRESH_TOKEN
   echo "Running command: upload ${each}"
   fi
 done
