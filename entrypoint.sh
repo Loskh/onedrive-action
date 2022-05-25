@@ -33,7 +33,7 @@ if [ -z "$INPUT_REFRESH_TOKEN" ]; then
 fi
 
 IFS="&&"
-arrARGS=($INPUT_FILE_NAME)
+arrARGS=($INPUT_FILES)
 
 for each in ${arrARGS[@]}
 do
