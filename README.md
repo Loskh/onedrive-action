@@ -7,12 +7,19 @@
 ## 用法说明
 
 `python ./upload.py file /path/file -c client_id -r redirect_uri -s client_secret -t refresh_token -u upload_path`  
-~~`python ./upload.py folder`~~ 开发中
+`python ./upload.py folder /path/folder -c client_id -r redirect_uri -s client_secret -t refresh_token -u upload_path`
 
 ## file
 
 **/path/file**  
 `上传文件的绝对路径，只支持单文件上传。`
+
+## folder
+
+**/path/folder**  
+`上传文件夹的绝对路径，会连着文件夹本身一起上传。例如：/demo_upload/demo_upload_folder`
+
+## 公有参数
 
 **-c client_id**  
 `应用程序(客户端) ID`
@@ -26,6 +33,7 @@
 
 **-t refresh_token**  
 `通过OneDrive API文档获取`
+
 ```
 # 获取code
 scope = "offline_access files.readwrite.all"
@@ -50,7 +58,6 @@ response = requests.post(
     "https://login.partner.microsoftonline.cn/common/oauth2/v2.0/token", data=data, headers=headers)
 refresh_token = response.json()['refresh_token']
 ```
-
 
 **-u upload_path**  
 `upload_path/ 上传的OneDrive目标文件夹路径。例如:/demo/demo_folder/`
