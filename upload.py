@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 # cython:language_level=3
-# @Time    : 2022/5/27 01:00
+# @Time    : 2022/5/25 19:24
 # @Author  : subjadeites
 # @File    : upload.py
 import argparse
@@ -35,7 +35,6 @@ def cli():
 
     args = parser.parse_args()
     if hasattr(args, 'handle'):
-        print(args)
         args.handle(args)
     else:
         parser.print_help()
@@ -114,8 +113,10 @@ def upload_file(file_path, upload_url):
             "Content-Range": "bytes 0-" + str(f_bit - 1) + "/" + str(f_bit),
         }
         response = requests.request("PUT", upload_url, data=f_bytes, headers=headers_upload)
-    print(response)
-
+    if response.status_code == 200 or response.status_code == 201 or response.status_code == 202:
+        print(f"Success:{file_path}上传成功")
+    else:
+        print(f"Failed:{file_path}上传失败")
 
 if __name__ == '__main__':
     cli()
