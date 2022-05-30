@@ -45,8 +45,8 @@ fi
 
 
 if [ -d "$INPUT_FOLDER" ];then
-  path = `realpath $INPUT_FOLDER`
-  python /upload.py folder ${path} -u $INPUT_UPLOAD_PATH -c $INPUT_CLIENT_ID -r $INPUT_REDIRECT_URI -s $INPUT_CLIENT_SECRET -t $INPUT_REFRESH_TOKEN
+  # path = `realpath $INPUT_FOLDER`
+  python /upload.py folder ${INPUT_FOLDER} -u $INPUT_UPLOAD_PATH -c $INPUT_CLIENT_ID -r $INPUT_REDIRECT_URI -s $INPUT_CLIENT_SECRET -t $INPUT_REFRESH_TOKEN
   echo "Running command: upload ${path}"
 fi
 
