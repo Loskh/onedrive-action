@@ -2,11 +2,6 @@
 
 set -e
 
-if [ -z "$INPUT_FILES" ]; then
-  echo '::error::Required files parameter'
-  exit 1
-fi
-
 if [ -z "$INPUT_UPLOAD_PATH" ]; then
   echo '::error::Required upload_path parameter'
   exit 1
@@ -32,16 +27,26 @@ if [ -z "$INPUT_REFRESH_TOKEN" ]; then
   exit 1
 fi
 
-IFS="&&"
-arrARGS=($INPUT_FILES)
 
-for each in ${arrARGS[@]}
-do
-  unset IFS
-  each=$(echo ${each} | xargs)
-  if [ -n "$each" ]; then
-  python /upload.py file ${each} -u $INPUT_UPLOAD_PATH -c $INPUT_CLIENT_ID -r $INPUT_REDIRECT_URI -s $INPUT_CLIENT_SECRET -t $INPUT_REFRESH_TOKEN
-  echo "Running command: upload ${each}"
-  fi
-done
+if [ -z "$INPUT_FILES" ]
+  IFS="&&"
+  arrARGS=($INPUT_FILES)
+
+  for each in ${arrARGS[@]}
+  do
+    unset IFS
+    each=$(echo ${each} | xargs)
+    if [ -n "$each" ]; then
+    python /upload.py file ${each} -u $INPUT_UPLOAD_PATH -c $INPUT_CLIENT_ID -r $INPUT_REDIRECT_URI -s $INPUT_CLIENT_SECRET -t $INPUT_REFRESH_TOKEN
+    echo "Running command: upload ${each}"
+    fi
+  done
+fi
+
+if [ -z "$INPUT_FOLDER" ]
+  path = `realpath $INPUT_FOLDER`
+  python /upload.py folder ${path} -u $INPUT_UPLOAD_PATH -c $INPUT_CLIENT_ID -r $INPUT_REDIRECT_URI -s $INPUT_CLIENT_SECRET -t $INPUT_REFRESH_TOKEN
+fi
+
+
 echo "Commands ran successfully"

@@ -7,7 +7,10 @@ branding:
 inputs:
   files:
     description: "Path of files to be uploaded."
-    required: true
+    required: false
+  folder:
+    description: "Path of files to be uploaded."
+    required: false
   upload_path:
     description: "Path in onedrive to be uploaded."
     required: true
