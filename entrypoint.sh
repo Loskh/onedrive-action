@@ -28,7 +28,7 @@ if [ -z "$INPUT_REFRESH_TOKEN" ]; then
 fi
 
 
-if [ -z "$INPUT_FILES" ]
+if [ -n "$INPUT_FILES" ];then
   IFS="&&"
   arrARGS=($INPUT_FILES)
 
@@ -43,9 +43,11 @@ if [ -z "$INPUT_FILES" ]
   done
 fi
 
-if [ -z "$INPUT_FOLDER" ]
+
+if [ -d "$INPUT_FOLDER" ];then
   path = `realpath $INPUT_FOLDER`
   python /upload.py folder ${path} -u $INPUT_UPLOAD_PATH -c $INPUT_CLIENT_ID -r $INPUT_REDIRECT_URI -s $INPUT_CLIENT_SECRET -t $INPUT_REFRESH_TOKEN
+  echo "Running command: upload ${path}"
 fi
 
 
