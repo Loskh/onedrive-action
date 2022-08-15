@@ -51,8 +51,8 @@ data = {
     'client_id': client_id,
     'redirect_uri': redirect_uri,
     'client_secret': client_secret,
-    'refresh_token': refresh_token,
-    'grant_type': 'refresh_token',
+    'code': code,
+    'grant_type': 'authorization_code',
 }
 response = requests.post(
     "https://login.partner.microsoftonline.cn/common/oauth2/v2.0/token", data=data, headers=headers)
