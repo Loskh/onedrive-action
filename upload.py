@@ -5,6 +5,7 @@
 # @Author  : subjadeites
 # @File    : upload.py
 import argparse
+import math
 import os
 
 import requests
@@ -108,15 +109,43 @@ def upload_file(file_path, upload_url):
     with open(file_path, "rb") as f:
         f_bytes = f.read()
         f_bit = len(f_bytes)  # 需要单文件大小小于60MiB
-        headers_upload = {
-            "Content-Length": str(f_bit),
-            "Content-Range": "bytes 0-" + str(f_bit - 1) + "/" + str(f_bit),
-        }
-        response = requests.request("PUT", upload_url, data=f_bytes, headers=headers_upload)
-    if response.status_code == 200 or response.status_code == 201 or response.status_code == 202:
-        print(f"Success:{file_path}上传成功")
-    else:
-        print(f"Failed:{file_path}上传失败")
+        # 如果文件小于60MiB，直接上传
+        if f_bit < 62914560:
+            headers_upload = {
+                "Content-Length": str(f_bit),
+                "Content-Range": "bytes 0-" + str(f_bit - 1) + "/" + str(f_bit),
+            }
+            response = requests.request("PUT", upload_url, data=f_bytes, headers=headers_upload)
+            if response.status_code == 200 or response.status_code == 201 or response.status_code == 202:
+                print(f"Success:{file_path}上传成功")
+            else:
+                print(f"Failed:{file_path}上传失败")
+        else:
+            # 如果文件大于60MiB，分片上传,计算分片数量
+            slice_num = math.ceil(f_bit / 62914560)
+            for i in range(slice_num):
+                if i == slice_num - 1:
+                    slice_size = f_bit - i * 62914560
+                else:
+                    slice_size = 62914560
+                slice_start = i * 62914560
+                slice_end = slice_start + slice_size - 1
+                slice_range = "bytes " + str(slice_start) + "-" + str(slice_end) + "/" + str(f_bit)
+                f.seek(slice_start) # 移动文件指针到分片起始位置
+                slice_content = f.read(slice_size) # 读取分片内容
+                # 上传
+                headers_upload = {
+                    "Content-Length": str(slice_size),
+                    "Content-Range": slice_range,
+                }
+                response = requests.request("PUT", upload_url, data=slice_content, headers=headers_upload)
+                if response.status_code == 200 or response.status_code == 201 or response.status_code == 202:
+                    print(f"Success:{file_path}上传成功{i + 1}/{slice_num}")
+                else:
+                    print(f"Failed:{file_path}上传失败{i + 1}/{slice_num}")
+                    print(response.json())
+                    raise Exception("上传失败")
+
 
 if __name__ == '__main__':
     cli()
